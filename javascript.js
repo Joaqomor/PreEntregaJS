@@ -1,0 +1,146 @@
+
+selecMaterial.addEventListener('change',()=>{
+    
+    console.log(selecMaterial.value);
+    if(selecMaterial.value == 'all'){
+        mostrarProductos(stockProductos)
+    }else{
+        let arrayNuevo = stockProductos.filter(elemento => elemento.material === selecMaterial.value)
+        console.log(arrayNuevo);
+        mostrarProductos(arrayNuevo)
+    }
+})
+ 
+mostrarProductos(stockProductos)
+
+
+
+
+
+function mostrarProductos(array){
+
+    filas.innerHTML= "" 
+
+    array.forEach(elemento => {
+    let tr = document.createElement('tr')
+    
+    tr.innerHTML=`<th scope="row">${elemento.id}</th>
+    <td>${elemento.material}</td>
+    <td>${elemento.medida}</td>
+    <td>${elemento.espesor}</td>
+    <td>${elemento.peso}</td>
+    <td>${elemento.valor}</td>
+    <td>${elemento.stock}</td>`
+    filas.appendChild(tr)
+
+    
+    
+    
+
+
+    })
+    
+   
+    let btnElimina = document.getElementById(`btnElimina`)
+
+    btnElimina.addEventListener('click',()=>{
+        let el = parseInt(prompt("indique el ID del material a eliminar"))
+        let numeroId = stockProductos.findIndex( x => x.id === el )
+        if (numeroId === -1) {
+            alert("ingrese un ID valido.")
+                
+        } else {
+            stockProductos.splice(numeroId,1)
+        }
+            
+           
+        filas.innerHTML= "" 
+        mostrarProductos(stockProductos) 
+        
+    })
+
+
+}
+
+    
+btnAgrega.addEventListener('click',()=>{
+        const selecMat = document.getElementById ("selecMat").value;
+        const selecMedida = document.getElementById ("selecMedida").value;
+        const selecEspesor = document.getElementById ("selecEspesor").value;
+        const inputPeso = document.getElementById("inputPeso").value;
+        const inputValor = document.getElementById("inputValor").value;
+        const inputStock = document.getElementById("inputStock").value;
+
+guardarNuevoStock()
+
+  
+stockProductos.push ({
+    
+    id: parseInt(Math.random() * 100),
+    material: selecMat,
+    medida: selecMedida,
+    espesor: parseInt(selecEspesor),
+    peso: parseInt(inputPeso),
+    valor: parseInt(inputValor),
+    stock:parseInt(inputStock)
+
+    
+}) 
+
+
+        
+        
+filas.innerHTML= ""
+mostrarProductos(stockProductos)
+
+
+}) 
+
+function guardarNuevoStock() {
+
+        let material = selecMat.value
+        let medida = selecMedida.value
+        let espesor = selecEspesor.value 
+        let peso = inputPeso.value 
+        let valor = inputValor.value 
+        let stock = inputStock.value 
+
+        localStorage.setItem ("material", material)
+        localStorage.setItem ("medida", medida)
+        localStorage.setItem ("espesor", espesor)
+        localStorage.setItem ("peso", peso)
+        localStorage.setItem ("valor", valor)
+        localStorage.setItem ("stock", stock)
+
+}
+
+function recuperaUltimoStock (){
+    selecMat.value = localStorage.getItem("material")
+    selecMedida.value = localStorage.getItem("medida")
+    selecEspesor.value = localStorage.getItem("espesor")
+    inputPeso.value = localStorage.getItem("peso")
+    inputValor.value = localStorage.getItem("valor")
+    inputStock.value = localStorage.getItem("stock")
+
+}
+
+recuperaUltimoStock ()
+
+
+
+   
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
