@@ -46,30 +46,55 @@ function mostrarProductos(array){
     btnElimina.addEventListener('click',()=>{
         let el = parseInt(prompt("indique el ID del material a eliminar"))
         let numeroId = stockProductos.findIndex( x => x.id === el )
-        if (numeroId === -1) {
-            alert("ingrese un ID valido.")
-                
-        } else {
-            stockProductos.splice(numeroId,1)
-        }
-            
+        Swal.fire({
+            title: 'Esta seguro que quiere eliminar el producto?',
+            text: "Una vez eliminado no podrá recuperarlo",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Eliminar'
+          }).then((result) => {
+            if (result.isConfirmed && numeroId != -1) {
+              Swal.fire(
+                'Eliminado!',
+                'El producto ha sido borrado.',
+                'success'
+              )
+              stockProductos.splice(numeroId,1)
+            } else{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Cancelado',
+                    text: 'No se borrará el producto',
+                  })
+            }
+        
            
         filas.innerHTML= "" 
-        mostrarProductos(stockProductos) 
+        mostrarProductos(stockProductos)
         
+        
+          })
+        
+            
     })
+    
 
 
 }
 
     
 btnAgrega.addEventListener('click',()=>{
+
         const selecMat = document.getElementById ("selecMat").value;
         const selecMedida = document.getElementById ("selecMedida").value;
         const selecEspesor = document.getElementById ("selecEspesor").value;
         const inputPeso = document.getElementById("inputPeso").value;
         const inputValor = document.getElementById("inputValor").value;
         const inputStock = document.getElementById("inputStock").value;
+
+       
 
 guardarNuevoStock()
 
@@ -93,6 +118,11 @@ stockProductos.push ({
 filas.innerHTML= ""
 mostrarProductos(stockProductos)
 
+Swal.fire(
+    'Buen Trabajo!',
+    'Agregaste un nuevo producto al stock.',
+    'success'
+  )
 
 }) 
 
